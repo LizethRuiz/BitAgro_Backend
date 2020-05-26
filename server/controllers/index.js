@@ -6,6 +6,8 @@ import * as cycles from './cycles';
 import * as sowing from './sowing';
 import * as binnacle from './binnacle';
 import * as activities from './activities';
+import * as finances from './finances';
+import * as harvest from './harvest';
 
 export {
   users,
@@ -15,5 +17,7 @@ export {
   cycles,
   sowing,
   binnacle,
-  activities
+  activities,
+  finances,
+  harvest
 };

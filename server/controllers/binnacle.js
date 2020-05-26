@@ -8,13 +8,32 @@ const getBinnacles = async (req, res) => {
     let sowingId = params.sowingId;
 
     const binnacles = await models.Binnacle.findAll({
+      order: [['id', 'ASC']],
       where: {
         sowingId,
         statusDelete: false
+      },
+      include: {
+        model: models.Activities
       }
     });
 
     return res.status(201).send(binnacles);
+  } catch (error) {
+    res.status(500).send(error.errors[0].message);
+  }
+};
+
+const getBinnacleById = async (req, res) => {
+  try {
+    const { params } = req;
+    let id = params.id;
+
+    const binnacle = await models.Binnacle.findByPk(id);
+
+    if (!binnacle) return res.status(404).send('Binnacle not found');
+
+    return res.status(201).send(binnacle);
   } catch (error) {
     res.status(500).send(error.errors[0].message);
   }
@@ -49,14 +68,19 @@ const binnacleAdd = async (req, res) => {
   try {
     const { body } = req;
     let sowingId = body.sowingId;
+    let name = body.name;
+    let description = body.description;
 
     if (isEmpty(sowingId)) return res.status(400).send('Sowing Id is required');
+    if (isEmpty(name)) return res.status(400).send('name is required');
 
     const sowing = await models.Sowing.findByPk(sowingId);
     if (!sowing) return res.status(404).send('Sowing not found');
 
     const response = await models.Binnacle.create({
-      sowingId
+      sowingId,
+      name,
+      description
     });
     return res.status(201).send(response);
   } catch (error) {
@@ -69,19 +93,42 @@ const binnacleUpdate = async (req, res) => {
   try {
     const { params, body } = req;
     let id = params.id;
-    let sowingId = body.sowingId;
     let status = body.status;
+    let name = body.name;
+    let description = body.description;
 
-    if (isEmpty(sowingId)) return res.status(400).send('Sowing is required');
-    if (isEmpty(status)) return res.status(400).send('status is required');
+    if (isEmpty(name)) return res.status(400).send('name is required');
 
     const binnacleFind = await models.Binnacle.findByPk(id);
     if (!binnacleFind) return res.status(404).send('Binnacle not found');
 
+    /* const binnacleStatusInit  = await models.Binnacle.findAll({
+      where:{statusDelete:false},
+      include:[{model:models.Activities,
+      where:{
+        status:'Iniciada',
+        statusDelete:false
+      }}]
+    });
+
+    const binnacleStatusEspera  = await models.Binnacle.findAll({
+      where:{statusDelete:false},
+      include:[{model:models.Activities,
+      where:{
+        status:'En espera',
+        statusDelete:false
+      }}]
+    });
+
+    if((binnacleStatusInit.length!==0 && status===false) ||(binnacleStatusEspera.length!==0 && status===false) ){
+      return res.status(401).send("NO es posible inactivar ya que tiene actividades pendientes")
+    } */
+
     const binnUpdate = await models.Binnacle.update(
       {
-        sowingId,
-        status
+        status,
+        name,
+        description
       },
       {
         where: {
@@ -128,5 +175,6 @@ export {
   binnacleDetail,
   binnacleAdd,
   binnacleUpdate,
-  binnacleDelete
+  binnacleDelete,
+  getBinnacleById
 };

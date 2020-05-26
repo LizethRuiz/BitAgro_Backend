@@ -44,6 +44,7 @@ const getLots = async (req, res) => {
   try {
     const { user } = req;
     const userId = user.id;
+    let response = [];
 
     const getLot = await models.Lots.findAll({
       order: [['id', 'ASC']],
@@ -55,7 +56,7 @@ const getLots = async (req, res) => {
         model: models.Sowing
       }
     });
-    console.log(getLot);
+
     return res.status(201).send(getLot);
   } catch (error) {
     res.status(500).send(error.errors[0].message);
@@ -148,4 +149,5 @@ const lotDelete = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
+
 export { lotAdd, getLots, getLotById, lotUpdate, lotDelete };

@@ -20,6 +20,81 @@ const getActivitiesByBinnacle = async (req, res) => {
   }
 };
 
+const getActivitiesEnEspera = async (req, res) => {
+  try {
+    const { params } = req;
+    let binnacleId = params.binnacleId;
+
+    const listActivities = await models.Activities.findAll({
+      order: [['dateStart', 'ASC']],
+      where: {
+        binnacleId,
+        statusDelete: false,
+        status: 'En espera'
+      },
+      include: [
+        {
+          model: models.Human_Resources
+        }
+      ]
+    });
+    return res.status(201).send(listActivities);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.errors[0].message);
+  }
+};
+
+const getActivitiesInit = async (req, res) => {
+  try {
+    const { params } = req;
+    let binnacleId = params.binnacleId;
+
+    const listActivities = await models.Activities.findAll({
+      order: [['dateStart', 'ASC']],
+      where: {
+        binnacleId,
+        statusDelete: false,
+        status: 'Iniciada'
+      },
+      include: [
+        {
+          model: models.Human_Resources
+        }
+      ]
+    });
+    return res.status(201).send(listActivities);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.errors[0].message);
+  }
+};
+
+const getActivitiesFinish = async (req, res) => {
+  try {
+    const { params } = req;
+    let binnacleId = params.binnacleId;
+
+    const listActivities = await models.Activities.findAll({
+      order: [['dateStart', 'ASC']],
+      where: {
+        binnacleId,
+        statusDelete: false,
+        status: 'Finalizada'
+      },
+      include: [
+        {
+          model: models.Human_Resources
+        }
+      ]
+    });
+    return res.status(201).send(listActivities);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.errors[0].message);
+  }
+};
+
 //Agregar Actividad
 const activitieAdd = async (req, res) => {
   try {
@@ -69,7 +144,13 @@ const getActivitieById = async (req, res) => {
 
     const id = params.id;
 
-    const activitie = await models.Activities.findByPk(id);
+    const activitie = await models.Activities.findByPk(id, {
+      include: [
+        {
+          model: models.Human_Resources
+        }
+      ]
+    });
 
     if (!activitie) return res.status(401).send('Activitie not found');
 
@@ -100,6 +181,7 @@ const updateActivitie = async (req, res) => {
       return res.status(400).send('date finish Id is required');
     if (isEmpty(estimatedExpense))
       return res.status(400).send('Estimated expense is required');
+    const act = await models.Activities.findByPk(id);
 
     const response = await models.Activities.update(
       {
@@ -117,6 +199,33 @@ const updateActivitie = async (req, res) => {
         }
       }
     );
+
+    const actUp = await models.Activities.findByPk(id);
+    const binn = await models.Binnacle.findByPk(act.binnacleId);
+    const finance = await models.Finances.findOne({
+      where: {
+        sowingId: binn.sowingId
+      }
+    });
+    const harvest = await models.Harvest.findOne({
+      where: {
+        sowingId: binn.sowingId
+      }
+    });
+
+    let oldExp = act.actualExpense;
+    if (oldExp !== null && actUp.actualExpense !== null) {
+      console.log('entra aqui');
+      let gasto = finance.expenditure - oldExp + actUp.actualExpense;
+      if (harvest.amount !== null) {
+        let ganancia = harvest.amount - gasto;
+        finance.expenditure = gasto;
+        finance.gain = ganancia;
+      } else {
+        finance.expenditure = gasto;
+      }
+      finance.save();
+    }
 
     if (response) return res.status(201).send('Activitie has been updated');
   } catch (error) {
@@ -190,9 +299,13 @@ const finishActivitie = async (req, res) => {
     const { params, body } = req;
     let id = params.id;
     let dateFinish = body.dateFinish;
+    let actualExpense = body.actualExpense;
 
     if (isEmpty(dateFinish))
       return res.status(400).send('Date start is required');
+    if (isEmpty(actualExpense))
+      return res.status(400).send('Actual Expense is required');
+
     const findActivitie = await models.Activities.findByPk(id);
 
     if (!findActivitie) return res.status(401).send('Activitie not found');
@@ -200,7 +313,8 @@ const finishActivitie = async (req, res) => {
     const activitieFinish = await models.Activities.update(
       {
         status: 'Finalizada',
-        dateFinish
+        dateFinish,
+        actualExpense
       },
       {
         where: {
@@ -208,6 +322,27 @@ const finishActivitie = async (req, res) => {
         }
       }
     );
+
+    const upActivitie = await models.Activities.findByPk(id);
+
+    const bitacora = await models.Binnacle.findByPk(upActivitie.binnacleId);
+
+    let siembraId = bitacora.sowingId;
+
+    const finance = await models.Finances.findOne({
+      where: {
+        sowingId: bitacora.sowingId,
+        statusDelete: false
+      }
+    });
+
+    console.log(finance);
+
+    let gasto = finance.expenditure;
+    let suma = gasto + upActivitie.actualExpense;
+
+    finance.expenditure = suma;
+    finance.save();
 
     if (activitieFinish)
       return res.status(201).send('Activitie has been finish');
@@ -223,5 +358,8 @@ export {
   updateActivitie,
   activitieDelete,
   initActivitie,
-  finishActivitie
+  finishActivitie,
+  getActivitiesEnEspera,
+  getActivitiesInit,
+  getActivitiesFinish
 };

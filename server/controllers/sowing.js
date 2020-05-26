@@ -12,11 +12,38 @@ const getSowing = async (req, res) => {
         lotId,
         statusDelete: false
       },
-      include: [{ model: models.Lots }, { model: models.Cycles }]
+      include: [
+        { model: models.Lots },
+        { model: models.Cycles },
+        { model: models.Binnacle },
+        { model: models.Finances },
+        { model: models.Harvest }
+      ]
     });
 
     return res.status(201).send(listSowing);
   } catch (error) {
+    console.log(error);
+    res.status(500).send(error.errors[0].message);
+  }
+};
+
+const sowingAll = async (req, res) => {
+  try {
+    console.log('ejecutanoddddddd');
+    const sowing = await models.Sowing.findAll({
+      order: [['id', 'ASC']],
+      where: {
+        status: true,
+        statusDelete: false
+      },
+      include: [{ model: models.Finances }]
+    });
+    console.log(sowing);
+
+    return res.status(201).send(sowing);
+  } catch (error) {
+    console.log(error);
     res.status(500).send(error.errors[0].message);
   }
 };
@@ -153,4 +180,44 @@ const sowingDelete = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
-export { getSowing, getSowingById, addSowing, sowingUpdate, sowingDelete };
+
+//Siembras activas por lote
+const totalSowingsActive = async (req, res) => {
+  try {
+    const { params } = req;
+    let lotId = params.lotId;
+
+    const lot = await models.Lots.findByPk(lotId);
+
+    if (!lot) return res.status(404).send('Lot not found');
+
+    const sowingAll = await models.Sowing.findAll({
+      where: {
+        status: true,
+        lotId
+      }
+    });
+
+    const cant = sowingAll.length;
+
+    console.log('cantidad', cant);
+
+    const response = {
+      total: cant
+    };
+
+    return res.status(201).send(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.errors[0].message);
+  }
+};
+export {
+  getSowing,
+  getSowingById,
+  addSowing,
+  sowingUpdate,
+  sowingDelete,
+  totalSowingsActive,
+  sowingAll
+};

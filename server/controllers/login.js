@@ -98,7 +98,7 @@ const resetPasswordEmail = async (req, res) => {
     let attachments = '';
     let url = `${hostBack}/api/user/resetPassword/${resetPassword}`;
     let content =
-      'Usted ha solicitado reestablecer su contraseña. ir al enlace para seguir con el proceso de reestablecimiento.';
+      'Usted ha solicitado restablecer su contraseña. ir al enlace para seguir con el proceso de restablecimiento.';
     const template = await getTemplateResetPassword(user.name, content, url);
 
     await sendMail(
@@ -110,7 +110,7 @@ const resetPasswordEmail = async (req, res) => {
 
     return res
       .status(201)
-      .send('Se ha enviado correo para reestablecer contraseña');
+      .send('Se ha enviado correo para restablecer contraseña');
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

@@ -21,6 +21,7 @@ const sowing = (sequelize, DataTypes) => {
     Sowing.belongsTo(models.Lots);
     Sowing.belongsTo(models.Cycles);
     Sowing.hasOne(models.Finances, { onDelete: 'CASCADE' });
+    Sowing.hasOne(models.Harvest, { onDelete: 'CASCADE' });
     Sowing.hasMany(models.Binnacle, { onDelete: 'CASCADE' });
   };
   return Sowing;

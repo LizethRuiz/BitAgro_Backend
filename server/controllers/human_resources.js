@@ -42,6 +42,7 @@ const getHr = async (req, res) => {
     if (!userFind) return res.status(404).send('User not found');
 
     const hrList = await models.Human_Resources.findAll({
+      order: [['id', 'ASC']],
       where: {
         userId,
         statusDelete: false

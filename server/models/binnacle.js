@@ -1,6 +1,12 @@
 /** Binnacle model */
 const binnacle = (sequelize, DataTypes) => {
   const Binnacle = sequelize.define('binnacle', {
+    name: {
+      type: DataTypes.STRING
+    },
+    description: {
+      type: DataTypes.TEXT
+    },
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: true

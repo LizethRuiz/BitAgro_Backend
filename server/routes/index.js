@@ -9,7 +9,9 @@ import {
   cycles,
   sowing,
   binnacle,
-  activities
+  activities,
+  finances,
+  harvest
 } from '../controllers';
 import auth from '../middlewares/authentication';
 import { binnacleDetail, binnacleUpdate } from '../controllers/binnacle';
@@ -74,12 +76,20 @@ router
   .put(auth.verifyToken, sowing.sowingUpdate)
   .delete(auth.verifyToken, sowing.sowingDelete);
 
+router.get(
+  '/sowing/active/byLot/:lotId',
+  auth.verifyToken,
+  sowing.totalSowingsActive
+);
+
+router.get('/all/sowings', auth.verifyToken, sowing.sowingAll);
+
 //********Binnacle Routes*******/
 router.post('/binnacle', auth.verifyToken, binnacle.binnacleAdd);
 
 router
   .route('/binnacle/:id')
-  .get(auth.verifyToken, binnacle.binnacleDetail) //Muestra las actividades por id de bitácora
+  .get(auth.verifyToken, binnacle.getBinnacleById) //Muestra las actividades por id de bitácora
   .put(auth.verifyToken, binnacle.binnacleUpdate) //Editar bitácora
   .delete(auth.verifyToken, binnacle.binnacleDelete);
 
@@ -102,6 +112,22 @@ router.get(
   auth.verifyToken,
   activities.getActivitiesByBinnacle
 ); //Obtener actividad por bitácora
+
+router.get(
+  '/activities/byBinnacle/wait/:binnacleId',
+  auth.verifyToken,
+  activities.getActivitiesEnEspera
+);
+router.get(
+  '/activities/byBinnacle/init/:binnacleId',
+  auth.verifyToken,
+  activities.getActivitiesInit
+);
+router.get(
+  '/activities/byBinnacle/finish/:binnacleId',
+  auth.verifyToken,
+  activities.getActivitiesFinish
+);
 router.put('/activitie/init/:id', auth.verifyToken, activities.initActivitie); //Iniciar actividad
 router.put(
   '/activitie/finish/:id',
@@ -109,4 +135,21 @@ router.put(
   activities.finishActivitie
 ); //Finalizar actividad
 
+//********Finances Routes*******/
+
+router.get('/finances/bySowing/:sowingId', finances.getFinances);
+router
+  .route('/finances/:id')
+  .put(auth.verifyToken, finances.financesUpdate) //Actualizar finanzas
+  .get(auth.verifyToken, finances.getFinancesById) //Obtener finanzas por id
+  .delete(auth.verifyToken, finances.financesDelete); //Eliminar finanzas
 export default router;
+
+//********Cosechas Routes*******/
+
+router.get('/harvest/bySowing/:sowingId', harvest.getHarvest);
+
+router
+  .route('/harvest/:id')
+  .put(auth.verifyToken, harvest.harvestUpdate) //Actualizar finanzas
+  .get(auth.verifyToken, harvest.getHarvestById); //Obtener finanzas por id
