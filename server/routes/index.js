@@ -13,8 +13,8 @@ let {
   finances,
   harvest
 } = require ('../controllers');
-import auth from '../middlewares/authentication';
-import { binnacleDetail, binnacleUpdate } from '../controllers/binnacle';
+const auth = require('../middlewares/authentication');
+//import { binnacleDetail, binnacleUpdate } from '../controllers/binnacle';
 
 //********Users Routes*******/
 router.post('/user/signUp', users.singUpUser); //Registro de cuenta

@@ -1,7 +1,7 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
-import path from 'path';
-import keys from '../config/keys';
+const path = require('path');
+const keys = require('../config/keys');
 
 //Credenciales al crear usuario
 const getTemplateAccountUser = async (name, content, email, password, url) => {
