@@ -12,19 +12,21 @@ const singUpUser = async (req, res) => {
     let name = body.name;
     let lastName = body.lastName;
     let email = body.email;
-    let password = generatePassword.generate({
-      length: 10,
-      numbers: true
-    });
+    let password = body.password;
+    // let password = generatePassword.generate({
+    //   length: 10,
+    //   numbers: true
+    // });
     let token = generatePassword.generate({
       length: 12,
       numbers: true
     });
-    let encPassword = bcrypt.hashSync(password, 10);
+    let encPassword = bcrypt.hashSync(body.password, 10);
 
     if (isEmpty(name)) return res.status(400).send('Name is required');
     if (isEmpty(lastName)) return res.status(400).send('Last Name is required');
     if (isEmpty(email)) return res.status(400).send('Email is required');
+    if (isEmpty(password)) return res.status(400).send('Password is required');
 
     const userExist = await models.User.findOne({
       where: {
@@ -40,29 +42,30 @@ const singUpUser = async (req, res) => {
       lastName,
       email,
       password: encPassword,
-      confirmToken: token
+      confirmToken: token,
+      status: true
     });
 
-    let attachments = '';
-    let url = `${hostBack}/api/user/activation/${user.id}/${token}`;
-    const content = `
-        <p>Ahora eres parte de BitAgro, esta contraseña es temporal, cambiela una vez que inicie sesión por primera vez. Para terminar el proceso de activación, 
-        haga click en el siguiente enlace para confirmar su cuenta</p>
-      `;
-    const template = await getTemplateAccountUser(
-      user.name,
-      content,
-      user.email,
-      password,
-      url
-    );
+    // let attachments = '';
+    // let url = `${hostBack}/api/user/activation/${user.id}/${token}`;
+    // const content = `
+    //     <p>Ahora eres parte de BitAgro, esta contraseña es temporal, cambiela una vez que inicie sesión por primera vez. Para terminar el proceso de activación, 
+    //     haga click en el siguiente enlace para confirmar su cuenta</p>
+    //   `;
+    // const template = await getTemplateAccountUser(
+    //   user.name,
+    //   content,
+    //   user.email,
+    //   password,
+    //   url
+    // );
 
-    await sendMail(
-      user.email,
-      'Cuentas de usuario BitAgro',
-      template,
-      attachments
-    );
+    // await sendMail(
+    //   user.email,
+    //   'Cuentas de usuario BitAgro',
+    //   template,
+    //   attachments
+    // );
 
     res.status(201).send('User created');
   } catch (error) {

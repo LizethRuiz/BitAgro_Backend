@@ -7,17 +7,6 @@ EXPOSE 5000
 #Set locale
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN   apt-get update && apt-get install -y --no-install-recommends \
-        locales \
-        tzdata \
-        ca-certificates \
-        libpq-dev \
-        && sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
-        && echo 'LANG="en_US.UTF-8"'>/etc/default/locale \
-        && dpkg-reconfigure --frontend=noninteractive locales \
-        && update-locale LANG=en_US.UTF-8 \
-        && apt-get clean && rm -rf /var/lib/apt/lists/*
-
 RUN mkdir /home/node/app && chown -R node:node /home/node/app
 
 USER node

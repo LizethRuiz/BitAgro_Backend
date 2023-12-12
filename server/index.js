@@ -18,7 +18,7 @@ const server = express();
 server.use(cors());
 server.use(morgan('dev'));
 server.use(bodyParser.json());
-server.use('/api', routes);
+server.use('/api/v1', routes);
 server.use(express.static(path.resolve(__dirname + '/public/')));
 
 module.exports = server;
