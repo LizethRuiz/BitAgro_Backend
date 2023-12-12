@@ -1,9 +1,9 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
-import generatePassword from 'generate-password';
-import bcrypt from 'bcryptjs';
-import { sendMail, getTemplateAccountUser } from '../utils/emailUtil';
-import { hostBack, hostFront } from '../config/keys';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
+const generatePassword = require('generate-password');
+const bcrypt = require('bcryptjs');
+//import { sendMail, getTemplateAccountUser } from '../utils/emailUtil';
+const { hostBack, hostFront } = require('../config/keys');
 
 //Registro de usuario
 const singUpUser = async (req, res) => {
@@ -261,7 +261,7 @@ const validateTokenAccount = async (req, res) => {
   }
 };
 
-export {
+module.exports = {
   singUpUser,
   getUser,
   updateUser,

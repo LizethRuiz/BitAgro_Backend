@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 //Obtiene lista de cosecha por siembra
 const getHarvest = async (req, res) => {
@@ -89,4 +89,4 @@ const harvestUpdate = async (req, res) => {
   }
 };
 
-export { getHarvest, getHarvestById, harvestUpdate };
+module.exports= { getHarvest, getHarvestById, harvestUpdate };

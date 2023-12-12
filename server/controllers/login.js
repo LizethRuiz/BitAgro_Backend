@@ -1,10 +1,10 @@
-import bcrypt from 'bcryptjs';
-import models from '../models';
-import jwt from 'jsonwebtoken';
-import generatePassword from 'generate-password';
-import { sendMail, getTemplateResetPassword } from '../utils/emailUtil';
-import { isEmpty } from '../utils/nativeMethods';
-import { seedToken, caducidadToken, hostBack, hostFront } from '../config/keys';
+const bcrypt =require('bcryptjs');
+const models = require('../models');
+const jwt = require('jsonwebtoken');
+const generatePassword = require('generate-password');
+//import { sendMail, getTemplateResetPassword } from '../utils/emailUtil';
+const { isEmpty } = require('../utils/nativeMethods');
+const { seedToken, caducidadToken, hostBack, hostFront } = require('../config/keys');
 
 //Login Users
 const login = async (req, res) => {
@@ -176,4 +176,4 @@ const confirmPassword = async (req, res) => {
     return res.status(500).send(error);
   }
 };
-export { login, validateResetPassword, confirmPassword, resetPasswordEmail };
+module.exports= { login, validateResetPassword, confirmPassword, resetPasswordEmail };

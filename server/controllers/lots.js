@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 const lotAdd = async (req, res) => {
   try {
@@ -150,4 +150,4 @@ const lotDelete = async (req, res) => {
   }
 };
 
-export { lotAdd, getLots, getLotById, lotUpdate, lotDelete };
+module.exports = { lotAdd, getLots, getLotById, lotUpdate, lotDelete };

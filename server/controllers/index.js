@@ -1,15 +1,15 @@
-import * as users from './users';
-import * as login from './login';
-import * as human_resources from './human_resources';
-import * as lots from './lots';
-import * as cycles from './cycles';
-import * as sowing from './sowing';
-import * as binnacle from './binnacle';
-import * as activities from './activities';
-import * as finances from './finances';
-import * as harvest from './harvest';
+let users = require('./users')
+let login= require('./login')
+let human_resources = require('./human_resources')
+let lots = require('./lots')
+let cycles = require('./cycles')
+let sowing = require('./sowing')
+let binnacle = require('./binnacle')
+let activities = require('./activities')
+let finances = require('./finances')
+let harvest = require('./harvest')
 
-export {
+module.exports = {
   users,
   login,
   human_resources,

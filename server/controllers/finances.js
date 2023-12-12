@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 //Obtiene lista de finanzas por siembra
 const getFinances = async (req, res) => {
@@ -119,4 +119,4 @@ const financesDelete = async (req, res) => {
   }
 };
 
-export { getFinances, getFinancesById, financesUpdate, financesDelete };
+module.exports= { getFinances, getFinancesById, financesUpdate, financesDelete };

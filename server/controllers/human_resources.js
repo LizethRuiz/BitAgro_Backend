@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 //Agregr personal
 const hrAdd = async (req, res) => {
@@ -136,4 +136,4 @@ const hrDelete = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
-export { hrAdd, getHr, getHrById, hrUpdate, hrDelete };
+module.exports = { hrAdd, getHr, getHrById, hrUpdate, hrDelete };

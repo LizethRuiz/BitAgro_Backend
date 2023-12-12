@@ -1,7 +1,7 @@
-import { Router } from 'express';
+const { Router } = require('express');
 const router = Router();
 
-import {
+let {
   users,
   login,
   human_resources,
@@ -12,7 +12,7 @@ import {
   activities,
   finances,
   harvest
-} from '../controllers';
+} = require ('../controllers');
 import auth from '../middlewares/authentication';
 import { binnacleDetail, binnacleUpdate } from '../controllers/binnacle';
 
@@ -143,7 +143,6 @@ router
   .put(auth.verifyToken, finances.financesUpdate) //Actualizar finanzas
   .get(auth.verifyToken, finances.getFinancesById) //Obtener finanzas por id
   .delete(auth.verifyToken, finances.financesDelete); //Eliminar finanzas
-export default router;
 
 //********Cosechas Routes*******/
 
@@ -153,3 +152,5 @@ router
   .route('/harvest/:id')
   .put(auth.verifyToken, harvest.harvestUpdate) //Actualizar finanzas
   .get(auth.verifyToken, harvest.getHarvestById); //Obtener finanzas por id
+
+  module.exports = router;

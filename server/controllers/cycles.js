@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 //Agregar ciclo
 const cycleAdd = async (req, res) => {
@@ -137,4 +137,4 @@ const cycleDelete = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
-export { cycleAdd, getCycles, getCycleById, cycleUpdate, cycleDelete };
+module.exports= { cycleAdd, getCycles, getCycleById, cycleUpdate, cycleDelete };

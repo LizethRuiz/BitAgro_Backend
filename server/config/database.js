@@ -1,7 +1,9 @@
-import Sequelize from 'sequelize';
-import keys from './keys';
+const Sequelize = require('sequelize');
+const keys = require('./keys');
 
-export default new Sequelize(keys.pgDatabase, keys.pgUser, keys.pgPassword, {
+const db = new Sequelize(keys.pgDatabase, keys.pgUser, keys.pgPassword, {
   host: keys.pgHost,
   dialect: 'postgres'
 });
+
+module.exports = db;

@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 //Obtiene lista de bitacora por siembra
 const getBinnacles = async (req, res) => {
@@ -170,7 +170,7 @@ const binnacleDelete = async (req, res) => {
   }
 };
 
-export {
+module.exports= {
   getBinnacles,
   binnacleDetail,
   binnacleAdd,

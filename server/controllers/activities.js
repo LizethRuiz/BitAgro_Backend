@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 const getActivitiesByBinnacle = async (req, res) => {
   try {
@@ -351,7 +351,7 @@ const finishActivitie = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
-export {
+module.exports= {
   getActivitiesByBinnacle,
   activitieAdd,
   getActivitieById,

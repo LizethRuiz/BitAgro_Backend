@@ -1,12 +1,12 @@
-import express from 'express';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import routes from './routes';
-import path from 'path';
+const express = require('express');
+const morgan= require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const routes = require('./routes');
+const path = require('path');
 
 /** DB */
-import db from './config/database';
+const db = require('./config/database');
 
 /** TEST db */
 db.authenticate()

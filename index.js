@@ -1,5 +1,5 @@
-import server from './server';
-import db from './server/config/database';
+const server = require('./server');
+const db = require('./server/config/database');
 
 const PORT = process.env.PORT || 5000;
 /** ERASE DATABASE WHEN THE SERVER STARTS **/

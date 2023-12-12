@@ -1,5 +1,5 @@
-import models from '../models';
-import { isEmpty } from '../utils/nativeMethods';
+const models = require('../models');
+const { isEmpty } = require('../utils/nativeMethods');
 
 const getSowing = async (req, res) => {
   try {
@@ -212,7 +212,7 @@ const totalSowingsActive = async (req, res) => {
     res.status(500).send(error.errors[0].message);
   }
 };
-export {
+module.exports= {
   getSowing,
   getSowingById,
   addSowing,

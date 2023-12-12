@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import { seedToken } from '../config/keys';
+const jwt = require('jsonwebtoken');
+const { seedToken } =require('../config/keys');
 
 //MiddleWare para verificar el token
 let verifyToken = (req, res, next) => {
