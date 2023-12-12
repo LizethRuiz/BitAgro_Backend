@@ -23,4 +23,4 @@ const binnacle = (sequelize, DataTypes) => {
   };
   return Binnacle;
 };
-export default binnacle;
+module.exports = binnacle;

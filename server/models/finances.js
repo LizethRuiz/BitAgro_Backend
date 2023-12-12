@@ -26,4 +26,4 @@ const finances = (sequelize, DataTypes) => {
   };
   return Finances;
 };
-export default finances;
+module.exports = finances;

@@ -29,4 +29,4 @@ const cycles = (sequelize, DataTypes) => {
   };
   return Cycles;
 };
-export default cycles;
+module.exports =  cycles;

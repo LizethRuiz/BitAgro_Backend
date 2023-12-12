@@ -25,4 +25,4 @@ const human_resources = (sequelize, DataTypes) => {
   };
   return Human_Resources;
 };
-export default human_resources;
+module.exports = human_resources;

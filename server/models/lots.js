@@ -32,4 +32,4 @@ const lots = (sequelize, DataTypes) => {
   };
   return Lots;
 };
-export default lots;
+module.exports = lots;
