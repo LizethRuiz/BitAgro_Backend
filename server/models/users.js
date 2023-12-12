@@ -39,4 +39,4 @@ const users = (sequelize, DataTypes) => {
   };
   return Users;
 };
-export default users;
+module.exports = users;

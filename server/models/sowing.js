@@ -26,4 +26,4 @@ const sowing = (sequelize, DataTypes) => {
   };
   return Sowing;
 };
-export default sowing;
+module.exports = sowing;

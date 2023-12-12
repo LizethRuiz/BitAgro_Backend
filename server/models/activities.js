@@ -34,4 +34,4 @@ const activities = (sequelize, DataTypes) => {
   };
   return Activities;
 };
-export default activities;
+module.exports = activities;

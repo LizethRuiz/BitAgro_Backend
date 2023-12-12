@@ -29,4 +29,4 @@ const harvest = (sequelize, DataTypes) => {
   };
   return Harvest;
 };
-export default harvest;
+module.exports =  harvest;
