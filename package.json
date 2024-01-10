@@ -6,12 +6,8 @@
   "scripts": {
     "dev": "nodemon -L --exec babel-node index.js",
     "seed": "babel-node -- server/seeds/index.js",
-    "start": "babel-node -- index.js",
-    "eslint": "eslint .",
-    "test": "NODE_ENV=test jest --watch",
-    "coverage": "jest --coverage"
+    "start": "node index.js"
   },
-  "pre-commit": "eslint",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,6 +21,7 @@
     "express-fileupload": "^1.1.6",
     "generate-password": "^1.5.1",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "nodemailer": "^6.4.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
@@ -42,7 +39,6 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
-    "morgan": "^1.9.1",
     "nodemon": "^1.19.4",
     "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
